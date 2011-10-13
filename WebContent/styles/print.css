@@ -1,0 +1,7 @@
+.printButtons, .noViewOnPrint{
+	display: none;
+}
+div#root_style_content {
+    background-color:transparent;
+    box-shadow: none;
+}

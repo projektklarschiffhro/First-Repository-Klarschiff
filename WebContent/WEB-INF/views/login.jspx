@@ -1,0 +1,78 @@
+<jsp:root 
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
+	xmlns:spring="http://www.springframework.org/tags" 
+	xmlns:jsp="http://java.sun.com/JSP/Page" 
+	xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu"
+	xmlns:fx="http://igd.fraunhofer.de/tags/elfunctions" 
+	xmlns:sec="http://www.springframework.org/security/tags"
+	version="2.0"
+	>
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+	<!-- CONTENTTITLE -->
+	<div id="root_style_content_title">
+		Login
+	</div>
+	
+	<!-- CONTENT -->
+	<div id="root_style_content">
+		<p>Um mit Klarschiff.HRO arbeiten zu können, müssen Sie sich anmelden!</p>
+		<c:url value='/resources/j_spring_security_check' var="form_url"/>
+		<form action="${form_url}" method="post">
+			<div>
+			    <label for="j_username" class="${loginError ? 'error' : ''}" style="color:black;font-size:12px;">Name:</label>
+			    <input id="j_username" type='text' name='j_username' />
+			</div>
+			<div>
+			    <label for="j_password" class="${loginError ? 'error' : ''}" style="color:black;font-size:12px;">Passwort:</label>
+			    <input id="j_password" type='password' name='j_password' />
+			</div>
+			<!--<div>
+			    <label for="j_rememberme" class="${loginError ? 'error' : ''}" style="color:black;font-size:12px;">angemeldet bleiben:</label>
+				<input id='j_rememberme' type='checkbox' name='j_rememberme' value="on"/>
+			</div>-->
+			<input id="proceed" type="submit" value="einloggen"/>
+			<c:if test="${accessDeniedError}">
+				<div class="error">Der Zugriff auf die Seite wurde verweigert. Sie haben nicht die entsprechenden Rechte, um diese Seite aufzurufen.</div>
+			</c:if>
+			<c:if test="${loginError}">
+				<div class="error">Ihre Zugangsdaten sind nicht korrekt.</div>
+			</c:if>
+		</form>
+		
+		<c:if test="${fx:showLogins()}">
+	       	<div class="dev" style="margin-top: 20px;">
+				Dieses ist eine Übersicht der aktuellen Benutzer im lokalem LDAP, welches für die Entwicklung verwendet wird:
+	       		<table>
+	       			<thead><tr><td>login</td><td>pass</td></tr></thead>
+	       			<tbody>
+	       				<tr><td>detlef_neitz</td><td>hro</td><td>ADMIN + nicht_zuordbar</td></tr>
+	       				<tr><td>sebastian_schwarz</td><td>hro</td><td>nicht_zuordbar</td></tr>
+	       				<tr><td>fritz</td><td>fritz</td><td>(a66)</td></tr>
+	       				<tr><td>olaf</td><td>olaf</td><td>a73</td></tr>
+	       				<tr><td>paul</td><td>paul</td><td>a73</td></tr>
+	       				<tr><td>rudi</td><td>rudi</td><td>a73</td></tr>
+	       				<tr><td>peter</td><td>peter</td><td>a67</td></tr>
+	       				<tr><td>horst</td><td>horst</td><td>a82</td></tr>
+	       				<tr><td>lutz</td><td>lutz</td><td>Stadtentsorgung</td></tr>
+	       				<tr><td>stefan_audersch</td><td>igd</td><td>ADMIN</td></tr>
+	       				<tr><td>tim</td><td>tim</td><td>Stadtwerke</td></tr>
+	       				<tr><td>werner</td><td>werner</td><td>veolia</td></tr>
+	       			</tbody>
+	       		</table>
+	       	</div>
+		</c:if>
+	</div>
+	
+	<!-- HELP -->
+	<div id="root_style_help">
+		<p>
+			Klarschiff.HRO ist ein Onlinedienst zum Melden und Bearbeiten von Problemen und Ideen in der Hansestadt Rostock.
+		</p>
+		<p>
+			Um mit dem Backend von Klarschiff.HRO arbeiten zu können müssen Sie sich mit einem Benutzernamen und Passwort anmelden.  
+		</p>
+	</div>
+
+</jsp:root>

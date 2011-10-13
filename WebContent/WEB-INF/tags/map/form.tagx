@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jsp:root 
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:jsp="http://java.sun.com/JSP/Page" 
+	xmlns:spring="http://www.springframework.org/tags" 
+	xmlns:fx="http://igd.fraunhofer.de/tags/elfunctions" 
+	version="2.0"
+	>
+	<jsp:output omit-xml-declaration="yes" />
+	
+	<jsp:directive.attribute name="projection" type="java.lang.String" required="false" rtexprvalue="true"/>
+	<jsp:directive.attribute name="tmsUrl" type="java.lang.String" required="true" rtexprvalue="true"/>
+	<jsp:directive.attribute name="tmsLayers" type="java.lang.String" required="true" rtexprvalue="true"/>
+	<jsp:directive.attribute name="maxExtent" type="java.lang.String" required="true" rtexprvalue="true"/>
+	<jsp:directive.attribute name="restrictedExtent" type="java.lang.String" required="true" rtexprvalue="true"/>
+	<jsp:directive.attribute name="resolutions" type="java.lang.String" required="true" rtexprvalue="true"/>
+	<jsp:directive.attribute name="ovi" type="java.lang.String" required="false" rtexprvalue="true"/>
+	<jsp:directive.attribute name="oviMargin" type="java.lang.String" required="false" rtexprvalue="true"/>
+	<jsp:directive.attribute name="oviFormElementId" type="java.lang.String" required="true" rtexprvalue="true"/>
+	<jsp:directive.attribute name="cssStyle" type="java.lang.String" required="false" rtexprvalue="true"/>
+
+	<c:if test="${empty projection}">
+		<c:set var="projection" value="EPSG:25833"/>
+	</c:if>
+	<c:if test="${empty oviMargin}">
+		<c:set var="oviMargin" value="400"/>
+	</c:if>
+
+    <div id="map" class="smallmap" style="${cssStyle}"><!-- //OpenLayers --></div>
+
+	<c:url value="/script/openLayers/theme/default/style.css" var="url"/>
+    <link rel="stylesheet" href="${url}" type="text/css"><!-- //OpenLayers Style --></link>
+	<c:url value="/script/openLayers/OpenLayers.js" var="url"/>
+	<script src="${url}" type="text/javascript"><!-- //OpenLayers --></script>
+	<c:url value="/script/openLayers/theme/dark/" var="url"/>
+	
+	<script type="text/javascript">
+	        var map, vlayer;
+	        var formater;
+	        
+	        var bounds = new OpenLayers.Bounds(${maxExtent});
+	        function initOpenLayers(){
+	        	//Theme
+	        	OpenLayers.ImgPath = "${url}";
+	        	
+	            //Formater definieren
+	    		var formatOptions = {
+	    			'internalProjection': new OpenLayers.Projection('${projection}'),
+	    			'externalProjection': new OpenLayers.Projection('${projection}')
+				};
+				formater = new OpenLayers.Format.WKT(formatOptions);
+
+				//Vector für OVI
+	        	var vlayerstylemap = new OpenLayers.StyleMap({pointRadius: 20, fillColor: 'red', fillOpacity: 0.2, strokeColor: 'red'});
+	        	//var vlayerstylemap = new OpenLayers.StyleMap({pointRadius: 20, fillColor: 'red', strokeColor: 'red', externalGraphic:'http://www.openlayers.org/images/OpenLayers.trac.png'});
+	        	vlayer = new OpenLayers.Layer.Vector( "Position", {styleMap: vlayerstylemap} );
+
+<c:if test="${not empty ovi}">
+				//Vector initialisieren
+				var initFeature = formater.read('${ovi}');
+				if(initFeature) {
+					if(initFeature.constructor != Array) initFeature = [initFeature];
+			     	vlayer.addFeatures(initFeature);
+			     	if(initFeature[0]) {
+				   		initBounds = initFeature[0].geometry.getBounds();
+				   		initBounds.left = initBounds.left - ${oviMargin};
+				   		initBounds.right = initBounds.right + ${oviMargin};
+				   		initBounds.top = initBounds.top + ${oviMargin};
+				   		initBounds.bottom = initBounds.bottom - ${oviMargin};
+				   	}
+				}
+</c:if>
+
+	        	//Handler für den OVI Vector
+	        	vlayer.events.on({
+	        		'sketchstarted': vectorReset,
+	                'sketchcomplete': vectorToInput
+	            });
+
+	        	//Controls
+	        	//Zoomen auf den ausgewählten Bereich
+	        	control_zoomBox = new OpenLayers.Control.ZoomBox({title:'Auf den ausgewählten Bereich zoomen'});
+	        	//Ansicht vor und zurück
+	        	control_navigationHistory = new OpenLayers.Control.NavigationHistory();
+	        	control_navigationHistory.previous.title='Ansicht zurück';
+	        	control_navigationHistory.next.title='Ansicht vor';
+	        	//Toolbar
+	        	editingToolbar = new OpenLayers.Control.EditingToolbar(vlayer);
+	        	//Control: Karte verschieben
+	        	control_navigation = editingToolbar.controls[0];
+	        	//Control: OVI einzeichnen
+	        	control_drawFeaturePoint = editingToolbar.controls[1];
+	        	//Control: maximal herauszoomen
+	        	control_zoomToMaxExtent = new OpenLayers.Control.ZoomToMaxExtent({title:'Ganze Karte anzeigen'});
+	        	//Control: Zoom in
+	        	control_zoomIn = new OpenLayers.Control.ZoomIn({title:'Heranzoomen'});
+	        	//Control: Zoom out
+	        	control_zoomOut = new OpenLayers.Control.ZoomOut({title:'Herauszoomen'});
+
+	        	map = new OpenLayers.Map( 'map', { 
+	        		controls: [
+	   		    		new OpenLayers.Control.LayerSwitcher({roundedCorner:false}),
+	   		    		new OpenLayers.Control.PanZoomBar(), 
+	   		    		new OpenLayers.Control.Navigation(), 
+	   		    		new OpenLayers.Control.MousePosition(),
+	   		    		editingToolbar,
+	   		    		control_zoomToMaxExtent
+	   		    	],
+	   		    	projection: '${projection}',
+	   		    	resolutions: [${resolutions}],
+	   		    	units: 'm',
+					restrictedExtent: new OpenLayers.Bounds(${restrictedExtent}),
+					maxExtent: bounds
+	        	} );
+					//minScale: 5000000000,
+					//maxScale: 30000000,
+	        		//numZoomLevels: 15
+				
+<c:forEach items="${fx:array(tmsLayers)}" var="layer">
+	<c:set value="${fx:array2(layer,':')}" var="layerOption"/>
+	        	layer = new OpenLayers.Layer.TMS( 
+	        			"${layerOption[0]}", 
+	                    "${tmsUrl}", {
+	                    	layername: '${layerOption[1]}',
+	                    	type: 'png',
+	                    	tileSize: new OpenLayers.Size(256, 256)
+	                    } );
+	        	map.addLayer(layer);
+</c:forEach>
+	            map.addLayer(vlayer);
+
+	            map.addControl(control_navigationHistory);
+	            editingToolbar.addControls([control_navigationHistory.previous, control_navigationHistory.next, control_zoomBox, control_zoomToMaxExtent, control_zoomIn, control_zoomOut]);
+
+	            editingToolbar.controls = [control_navigationHistory.next, control_navigationHistory.previous, control_zoomToMaxExtent, control_zoomBox, control_zoomIn, control_zoomOut, control_navigation, control_drawFeaturePoint];
+
+	            editingToolbar.redraw();
+	        	editingToolbar.activateControl(control_navigation);
+
+				//initial Zoomen
+<c:if test="${not empty ovi}">
+				map.zoomToExtent(initBounds);
+</c:if>
+<c:if test="${empty ovi}">
+				map.zoomToMaxExtent();
+</c:if>
+				$('div.olControlNavigationItemActive').attr("title", "Karte verschieben");
+				$('div.olControlNavigationItemInactive').attr("title", "Karte verschieben");
+				$('div.olControlDrawFeaturePointItemActive').attr("title", "Einzeichnen der Position");
+				$('div.olControlDrawFeaturePointItemInactive').attr("title", "Einzeichnen der Position");
+				$('img#OpenLayers_Control_MaximizeDiv_innerImage').attr("title", "Kartenansicht wechseln");
+	        }
+	
+        	function vectorReset(evt) {
+	            window.setTimeout(function() {
+	            	vlayer.destroyFeatures();
+	            	vlayer.redraw();
+	            }, 10);
+	        }
+	        function vectorToInput(evt) {
+	    	    window.setTimeout(function() {
+	    			if (document.getElementById('${oviFormElementId}')) {
+	    	        	document.getElementById('${oviFormElementId}').value = formater.write(vlayer.features[0], true);
+	    			}
+	    	    }, 10);
+	        }
+	        
+			initOpenLayers();
+		</script>
+</jsp:root>

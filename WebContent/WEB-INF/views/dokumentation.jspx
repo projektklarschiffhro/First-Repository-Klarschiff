@@ -1,0 +1,81 @@
+<jsp:root 
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:spring="http://www.springframework.org/tags" 
+	xmlns:jsp="http://java.sun.com/JSP/Page" 
+	xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu"
+	xmlns:vorgang="urn:jsptagdir:/WEB-INF/tags/vorgang"
+	xmlns:map="urn:jsptagdir:/WEB-INF/tags/map"
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util"
+	xmlns:foto="urn:jsptagdir:/WEB-INF/tags/foto"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:fx="http://igd.fraunhofer.de/tags/elfunctions" 
+	version="2.0"
+	>
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+	<!-- CONTENTTITLE -->
+	<div id="root_style_content_title">
+		Dokumentation
+	</div>
+	
+	<!-- TABMENU -->
+	<tiles:importAttribute name="tabmenu_item" ignore="true" toName="tabmenu_item"/>
+	<menu:tabmenudokumentation currentId="${tabmenu_item}"/>
+		
+	<!-- CONTENT -->
+	<div id="root_style_content">
+		<c:choose>
+
+			<c:when test="${tabmenu_item eq 'dokumentation.benutzer' or tabmenu_item eq 'dokumentation.admin' or tabmenu_item eq 'dokumentation.entwickler'}">
+				<c:choose>
+					<c:when test="${tabmenu_item eq 'dokumentation.benutzer'}">
+						<c:url value="/dokumentation/Benutzerhandbuch.html" var="url"/>
+					</c:when>
+					<c:when test="${tabmenu_item eq 'dokumentation.admin'}">
+						<c:url value="/dokumentation/Administrationshandbuch.html" var="url"/>
+					</c:when>
+					<c:when test="${tabmenu_item eq 'dokumentation.entwickler'}">
+						<c:url value="/dokumentation/Entwicklerdokumentation.html" var="url"/>
+					</c:when>
+				</c:choose>	
+				<div id="documentationContent" style="max-width:700px;"><!-- hier kommt der Inhalt rein --></div>
+				<script type="text/javascript">
+					$.ajax({
+					  url: '${url}',
+					  success: function(data) {
+					    $('#documentationContent').html(data);
+					  }
+					});
+				</script>
+			</c:when>
+
+			<c:when test="${tabmenu_item eq 'dokumentation.api'}">
+				<c:url value="/dokumentation/apidoc/index.html" var="url"/>
+					<iframe height="800" width="100%" src="${url}" frameborder="0" scrolling="no" encoding="Cp1252">
+						<p>Ihr Browser kann leider keine eingebetteten Frames anzeigen.</p>
+					</iframe>
+			</c:when>
+
+			<c:otherwise>
+				<p>Sie finden hier Dokumentationen zum Backend für Klarschiff. Die Dokumentation ist hierbei in drei Bereiche unterteilt:</p>
+				<ul>
+					<li>Benutzerhandbuch: Handbuch für die Benutzer des Backends von Klarschiff</li>
+					<li>Administrationshandbuch: Handbuch für die Administratoren des Backends von Klarschiff</li>
+					<li>Entwicklerdokumentation: Dokumentation für die Entwickler des Backends von Klarschiff</li>
+					<li>API Dokumentation: Dokumentation der Implementierung für Entwickler des Backends von Klarschiff</li>
+				</ul>
+			</c:otherwise>
+
+		</c:choose>
+	</div>
+	
+	<!-- HELP -->
+	<div id="root_style_help">
+		<p>
+			Über die Karteireiter haben Sie die Möglichkeit sich die verschiedenen Bereiche der Dokumentation anzuzeigen.
+		</p>
+	</div>
+
+</jsp:root>

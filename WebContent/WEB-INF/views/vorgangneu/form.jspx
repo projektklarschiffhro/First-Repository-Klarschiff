@@ -1,0 +1,236 @@
+<jsp:root 
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
+	xmlns:spring="http://www.springframework.org/tags" 
+	xmlns:jsp="http://java.sun.com/JSP/Page" 
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles" 
+	xmlns:map="urn:jsptagdir:/WEB-INF/tags/map"
+	version="2.0"
+	>
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+	<!-- CONTENTTITLE -->
+	<div id="root_style_content_title">
+		Neuer Vorgang
+	</div>
+	
+	<!-- CONTENT -->
+	<div id="root_style_content">
+		<form:form method="POST" modelAttribute="cmd" enctype="multipart/form-data">
+
+			<div class="fieldset">
+				<div class="fieldsettitle">Pflichtfelder</div>
+
+		        <div>
+		        	<form:label path="vorgang.typ" cssErrorClass="error">Typ*</form:label>
+		            <form:select path="vorgang.typ" id="typ" onchange="updateHauptkategorie()">
+		            	<form:option value="" label="Typ wählen" cssClass="info"/>
+		            	<c:forEach items="${vorgangtypen}" var="vorgangtyp">
+		            		<c:url value="/images/${vorgangtyp}_15.png" var="url"/>
+		            		<form:option value="${vorgangtyp}" label="${vorgangtyp.text}" cssStyle="background-image:url(${url});" cssClass="suffixiconsmall"/>
+		            	</c:forEach>
+		            </form:select>
+		        </div>
+	
+		        <div>
+		        	<form:label path="kategorie" cssErrorClass="error">Hauptkategorie*</form:label>
+		            <form:select path="kategorie" id="hauptkategorie" disabled="true" onchange="updateUnterkategorie()" style="width:358px;">
+		            	<form:option value="" label="Hauptkategorie wählen" cssClass="info"/>
+						<form:options items="${hauptkategorien}" itemValue="id" itemLabel="name"/>
+		            </form:select>
+		        </div>
+		        
+		        <div>
+		        	<form:label path="vorgang.kategorie" cssErrorClass="error">Kategorie*</form:label>
+		            <form:select path="vorgang.kategorie" id="unterkategorie" disabled="true" onchange="updateInfo()" cssStyle="width:358px;">
+		            	<form:option value="" label="Kategorie wählen" cssClass="info"/>
+						<form:options items="${unterkategorien}" itemValue="id" itemLabel="name"/>
+		            </form:select>
+		        </div>
+		
+		        <div>
+		        	<form:label path="vorgang.oviWkt" cssErrorClass="error" cssStyle="float:none;">Position*</form:label>
+		            <form:hidden path="vorgang.oviWkt" cssClass="inputtext"/>
+
+ 		        	<map:form 
+ 		        		projection="${geoService.mapProjection}"
+		        		tmsUrl="${geoService.mapTmsServer}" 
+		        		tmsLayers="${geoService.mapTmsServerLayers}" 
+		        		maxExtent="${geoService.mapMaxExtent}"
+		        		restrictedExtent="${geoService.mapRestrictedExtent}"
+		        		resolutions="${geoService.mapResolutions}"
+		        		ovi="${cmd.vorgang.oviWkt}"
+		        		oviFormElementId="vorgang.oviWkt"
+		        		cssStyle="height: 500px; width: 100%; margin-left:100px;"
+		        		/>			
+		        </div>
+				
+			</div>
+			
+			<div class="fieldset">
+				<div class="fieldsettitle">Weitere Angaben</div>
+
+		        <div>
+		        	<form:label path="vorgang.betreff" cssErrorClass="error">Betreff<span class="naeherBeschreibungLabel">*</span></form:label>
+		            <form:input path="vorgang.betreff" cssClass="inputtext naeherBeschreibung betreff" cssStyle="width:350px;" onblur="naeherBeschreibung(this);" onfocus="clearNaeherBeschreibung(this);"/>
+		        </div>
+	
+		        <div>
+		        	<form:label path="vorgang.details" cssErrorClass="error">Details<span class="naeherBeschreibungLabel">*</span></form:label>
+		            <form:textarea path="vorgang.details" cols="6" cssStyle="width:350px;" cssClass="naeherBeschreibung details" onblur="naeherBeschreibung(this);" onfocus="clearNaeherBeschreibung(this);"/>
+		        </div>
+		        	        
+	
+		        <div>
+		        	<form:label path="vorgang.autorEmail" cssErrorClass="error">Email</form:label>
+		            <form:input path="vorgang.autorEmail" cssClass="inputtext"  cssStyle="width:350px;"/>
+		        </div>
+	
+		        <div>
+		        	<form:label path="bild" cssErrorClass="error">Foto</form:label>
+		            <input id="bild" name="bild" type="file" size="35" class="inputfile"/>
+		        </div>
+			</div>
+
+				<c:url value="/kategorien" var="url"/>
+				<script type="text/javascript">
+				var naeherBeschreibungBetreffText='Geben Sie ein Betreff an!';
+				var naeherBeschreibungDetailsText='Geben Sie Details an!';
+				
+				function isBlank(obj){
+					return(!obj || $.trim(obj) === "");
+				}
+				
+				function updateHauptkategorie()
+				{
+					var items = [];	  
+					items.push('<option value="" class="info">Hauptkategorie wählen</option>');
+				
+					var value = $('select#typ')[0].value;
+					var node = $('select#hauptkategorie');
+					node.empty();
+					node.append(items.join(''));
+					node.attr("disabled", "disabled");
+					
+					//Json-Anfrage
+					$.ajaxSetup({ scriptCharset: "utf-8" , contentType: "application/json; charset=utf-8"});
+					$.getJSON('${url}?typ='+value, function(data) {
+						$.each(data, function(index, val) {
+							items.push('<option value="' + val.id + '">' + val.nameEscapeHtml + '</option>');
+						});
+						node.empty();
+						node.append(items.join(''));
+						if (items.length>1) node.removeAttr("disabled"); 
+						updateUnterkategorie('');
+					});
+				}
+				
+				function updateUnterkategorie()
+				{
+					var value = $('select#hauptkategorie')[0].value;
+					var items = [];	  
+					items.push('<option value="" class="info">Kategorie wählen</option>');
+				
+					var node = $('select#unterkategorie');
+					node.empty();
+					node.append(items.join(''));
+					node.attr("disabled", "disabled");
+					
+					//Json-Anfrage
+					$.ajaxSetup({ scriptCharset: "utf-8" , contentType: "application/json; charset=utf-8"});
+					$.getJSON('${url}?kategorie='+value, function(data) {
+						$.each(data, function(index, val) {
+							items.push('<option value="' + val.id + '">' + val.nameEscapeHtml + '</option>');
+						});
+						node.empty();
+						node.append(items.join(''));
+						if (items.length>1) node.removeAttr("disabled"); 
+						updateInfo();
+					});
+				}
+				
+				function updateInfo()
+				{
+					hauptkategorie = $('select#hauptkategorie')[0].value;
+					unterkategorie = $('select#unterkategorie')[0].value;
+					var node = $('.naeherBeschreibungEmpfohlen');
+					$.ajaxSetup({ scriptCharset: "utf-8" , contentType: "application/json; charset=utf-8"});
+					$.getJSON('${url}/viewNaehereBeschreibung?hauptkategorie='+hauptkategorie+'<![CDATA[&]]>unterkategorie='+unterkategorie, function(data) {
+						if (data=='betreff') {
+							$('.naeherBeschreibung.betreff').attr('naeherBeschreibung', 'on');
+							$('.naeherBeschreibung.details').attr('naeherBeschreibung', 'off');
+						} else if (data=='details') {
+							$('.naeherBeschreibung.betreff').attr('naeherBeschreibung', 'off');
+							$('.naeherBeschreibung.details').attr('naeherBeschreibung', 'on');
+						} else if (data=='betreffUndDetails') {
+							$('.naeherBeschreibung.betreff').attr('naeherBeschreibung', 'on');
+							$('.naeherBeschreibung.details').attr('naeherBeschreibung', 'on');
+						} else if (data=='keine') {
+							$('.naeherBeschreibung.betreff').attr('naeherBeschreibung', 'off');
+							$('.naeherBeschreibung.details').attr('naeherBeschreibung', 'off');
+						}
+						$.each($('.naeherBeschreibung'), function(index, val) {
+							naeherBeschreibung(val);
+						});
+					});
+				}
+
+				function init()
+				{
+					typ = $('select#typ')[0].value;
+					hauptkategorie = $('select#hauptkategorie')[0].value;
+
+					if (isBlank(typ)) {
+						updateHauptkategorie();
+					} else {
+						$('select#hauptkategorie').removeAttr("disabled");
+						if (isBlank(hauptkategorie)) {
+							updateUnterkategorie();
+						} else {
+							$('select#unterkategorie').removeAttr("disabled");
+							updateInfo();
+						}
+					}
+				}
+				
+				function clearNaeherBeschreibung(val) {
+					elem = $(val);
+					naeherBeschreibungText = elem.hasClass('betreff') ? naeherBeschreibungBetreffText : naeherBeschreibungDetailsText;
+					if (elem.attr('naeherBeschreibung')=='off') elem.parent().find('label <![CDATA[>]]> span.naeherBeschreibungLabel').css('display', 'none');
+					if (val.value==naeherBeschreibungText) val.value='';
+					elem.removeClass('watermark');
+				}
+				
+				function naeherBeschreibung(val) {
+					elem = $(val);
+					if (elem.attr('naeherBeschreibung')=='on') {
+						elem.parent().find('label <![CDATA[>]]> span.naeherBeschreibungLabel').css('display', 'inline');
+						naeherBeschreibungText = elem.hasClass('betreff') ? naeherBeschreibungBetreffText : naeherBeschreibungDetailsText;
+						if (isBlank(val.value)) val.value=naeherBeschreibungText;
+						if (val.value==naeherBeschreibungText) elem.addClass('watermark');
+						else elem.removeClass('watermark');
+					} else clearNaeherBeschreibung(val);
+				}
+								
+				init();
+				
+				</script>
+
+
+			<input type="submit" value="Speichern"/>
+		</form:form>
+	</div>
+	
+	<!-- HELP -->
+	<div id="root_style_help">
+		<p>
+			Sie können hier eine neue Idee oder ein Problem erstellen. Geben Sie hierzu die notwendigen Informationen (Typ, Hauptkategorie, Kategorien) und 
+			legen sie den Ort der Meldung mit Hilfe des Stiftsymbols in der Karte fest. Die Angaben Betreff und Details sind abhängig der gewählten Haupt- und
+			Unterkategorie Pflichtangaben. Eine Bestätigung anhand der Email ist nicht notwendig. 
+			<br/>
+			Nach dem Erstellen sucht das System nach einem passendem Zuständigen für diesen Vorgang.
+		</p>
+	</div>
+
+</jsp:root>

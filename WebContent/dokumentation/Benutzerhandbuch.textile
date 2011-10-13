@@ -1,0 +1,616 @@
+p(title). Benutzerhandbuch
+
+nur zum Testen: "Beispiel für ein Link":#frontendUndBackend
+
+{toc}
+
+h1. Einführung
+
+h2(#frontendUndBackend). Frontend und Backend
+
+Klarschiff unterteilt sich in zwei Bereiche, das Frontend und das Backend.
+ 
+Das Frontend dient dem Bürger seine Anliegen an die Verwaltung zu richten. Hierbei kann der Bürger seine Meldungen sowohl mit einem PC als auch über eine mobile Version mit einem Handy, Smartphone oder Tablet erstellen. Neben der Erstellung von Meldungen hat der Benutzer die Möglichkeit, sich über andere Meldungen zu informieren, andere Meldungen zu unterstützen, bei Meldungen einen Missbrauch zu melden oder GeoRSS-Feed zu abonieren. 
+
+Das Backend stellt ein System für die Verwaltung dar, in dem Meldungen zentral registriert, verwaltet und bearbeitet werden können. Die Zuweisung von Meldungen an die richtigen Ansprechpartner in der Verwaltung erfolgt dabei im System automatisch. Externe Dienstleister, zum Beispiel Entsorgungsdienstleister, können über das Backend ebenfalls eingebunden werden.
+
+h1. Grundlagen und Begriffe
+
+
+
+h2. Meldung bzw. Vorgang
+
+Die Begriffe Meldung und Vorgang werden in der Regel synonym zueinander verwendet. Im Frontend spricht man in der Regel von einer *Meldung* ("Der Bürger erstellt eine Meldung an die Verwaltung."). Im Backend dagegen wird in der Regel von einem *Vorgang* gesprochen ("Der Vorgang kann im Backend bearbeitet werden"). Die Unterscheidung wird gemacht, da die Begriffe jeweils aus der Sicht der Betrachtung (Bürger, Verwaltung) intuitiver zu verwenden sind.  
+
+
+
+h2. Problem und Idee
+
+Bei einem Vorgang kann es sich sowohl um ein Problem oder eine Idee handeln. Problem und Idee sind die sogenannten Vorgangstypen. Ein Problem wird  in Klarschiff immer durch ein !../images/problem_15.png! (_Ausrufezeichen_) und eine Idee immer durch ein !../images/idee_15.png! (_Glühbirne_) gekennzeichnet. 
+
+Jedem Vorgang ist einer Haupt- und Unterkategorie zugeordnet. Die möglichen Kategorien für einen Vorgang sind vom Vorgangstyp abhängig.
+
+Im Backend werden Ideen erst ab einer bestimmten Anzahl von abgegebenen Unterstützungen (aktuell 10) in der Suche angezeigt. Die Anzeige aller Ideen, auch die mit noch nicht genügenden Unterstützungen, ist in der erweiterten Suche mit entsprechenden Rechten möglich. 
+
+
+
+h2. Kategorien
+
+Zur näheren Beschreibung sind jedem Vorgang eine Haupt- und eine Unterkategorie zugeordnet. Die Angaben der Kategorien sind für jeden Vorgang Pflicht. Die möglichen Kategorien für einen Vorgang sind vom gewählten Vorgangstyp abhängig.
+
+Bei der Auswahl bestimmter Kategorien während der Erstellung eines neuen Vorganges wird der Erstellter gegebenenfalls zur genaueren Beschreibung durch _Betreff_ und _Details_ aufgefordert. Die Felder werden mit einem * und einem Hinweistext gekennzeichnet, wenn diese angegeben werden müssen.
+
+
+
+h2. Vorgangsdaten
+
+Jeder Vorgang wird durch verschiedene Vorgangsdaten beschrieben. Zu den Vorgangsdaten gehören:
+* Typ bzw. Vorgangstyp
+* Haupt- und Unterkategorie
+* Ort (wird auf der Karte eingezeichnet)
+* Betreff
+* Details
+* (Email)
+* Foto
+Die Vorgangsdaten werden bei der Erstellung eines Vorganges angegeben. Vorgangstyp, Ort, Haupt- und Unterkategorie sind Pflichtangaben.
+
+Im Frontend gehört die Angabe der Email zu den Pflichtangaben, da diese für die Erstellung der Bestätigungsemail notwendig ist. Die Angabe von Details und Betreff können bei der Auswahl bestimmter Kategorien ebenfalls zu Pflichtangaben werden.
+
+Beim der Erstsichtung bzw. beim Bearbeiten eines Vorganges können einige Vorgangsdaten durch den Sachbearbeiter verändert werden. Dabei können die Kategorien angepasst und der Betreff bzw. die Details verändert werden. Eine Bearbeitung des Fotos ist ebenfalls möglich.
+
+
+
+h2. Vorgangsnummer
+
+Jeder Vorgang bekommt zur seiner eindeutigen Identifikation eine Vorgangsnummer. Die Vorgangsnummer ist sowohl in der Ergebnistabelle bei der Suche als auch in den Vorgangskurzinformationen zu finden. Die Vorgangsnummern beginnen bei 1 und werden entsprechend hochgezählt.
+
+!{width:90%}img_vorgangsnummerSuche.jpg!
+
+p(imgtext). _Abbildung:_ Vorgangsnummer in der Ergebnisstabelle
+
+!{width:90%}img_vorgangsnummerVorgangskurzinformation.jpg!
+
+p(imgtext). _Abbildung:_ Vorgangsnummer bei den Vorgangskurzinformationen
+
+
+
+h2. Status
+
+Jeder Vorgang hat einen Status. Über den Vorgangsstatus ist ersichtlich, wie der aktuelle Stand des Vorganges ist. Es existieren die folgenden Status:
+* !../images/status_gemeldet_15.png! *gemeldet*
+* !../images/status_offen_15.png! *offen*
+* !../images/status_inBearbeitung_15.png! *in Bearbeitung*
+* !../images/status_wirdNichtBearbeitet_15.png! *wird nicht Bearbeitet*
+* !../images/status_wirdNichtBearbeitet_15.png! *Duplikat*
+* !../images/status_abgeschlossen_15.png! *abgeschlossen*
+* !../images/status_geloescht_15.png! *gelöscht*
+
+Die Status unterteilen sich in die beiden Gruppen _offen_ und _abgeschlossen_. 
+
+Ein im Frontend neu erstellter Vorgang ist nach der Erstellung automatisch im Status _gemeldet_. Nach erfolgreicher Bestätigung wechselt der Status in _offen_. Im Backend erstellte Vorgänge sind direkt nach der Erstellung im Status _offen_. Nach der Erstsichtung eines Vorganges wechselt der Status in _in Bearbeitung_. Zwischen den Status _in Bearbeitung_, _wird nicht Bearbeitet_, _Duplikat_, _abgeschlossen_ und _gelöscht_ kann bei der Bearbeitung eines Vorganges gewechselt werden.
+
+Zur näheren Erläuterung eines Status hat der Sachbearbeiter die Möglichkeit ein Statuskommentar abzulegen. Für den Statuskommentar steht ein Freitext zur Verfügung. Um die Arbeit mit dem Statuskommentar zu erleichtern, existieren verschiedene Vorlagen, die gewählt, übernommen und dann bei Bedarf angepasst werden können.
+
+!{width:90%}img_statusBearbeiten.jpg!
+
+p(imgtext). _Abbildung:_ Bearbeiten des Status eines Vorganges
+
+Der Status und der Statuskommentar eines Vorganges wird im Backend an verschiedenen Stellen dargestellt.
+
+!img_statusVorgangskurzinformationen.jpg!
+
+p(imgtext). _Abbildung:_ Vorgangsstatus in den Vorgangskurzinformationen
+
+!img_statusUebersicht.jpg!
+
+p(imgtext). _Abbildung:_ Vorgangsstatus in der Übersicht zu einem Vorgang
+
+Status und Statuskommentar sind ebenfalls im Frontend für den Bürger sichtbar.
+
+
+
+h2. Offene und abgeschlossene Vorgänge
+
+Jeder Vorgang hat einen aktuellen Status. die verschiedenen Status lassen sich in die beiden Gruppen _offen_ und _abgeschlossen_ einteilen. Zu den offenen gehören die Status:
+* gemeldet
+* offen
+* in Bearbeitung
+Zu den abgeschlossenen gehören die folgenden Status:
+* wird nicht bearbeitet
+* Duplikat
+* abgeschlossen
+* gelöscht
+
+Nur abgeschlossene Vorgänge können archiviert werden.
+  
+
+
+h2. Archiv
+
+Um die Übersicht in der Suchanzeige zu bewahren, existiert ein Archiv. Hierhin werden automatisch abgeschlossen Vorgänge nach einer definierten Zeit verschoben. Es besteht ebenfalls die Möglichkeit Vorgänge manuell zu archivieren bzw. bereits archivierte Vorgänge aus dem Archiv wiederherzustellen.
+
+!img_archivBearbeiten.jpg!
+
+p(imgtext). _Abbildung:_ Vorgang archivieren
+
+Archivierte Vorgänge werden in der einfachen Suche nicht angezeigt. Die Anzeige von archivierten Vorgängen ist mit Hilfe der erweiterten Suche möglich.
+
+!{width:90%}img_archivSuchen.jpg!
+
+p(imgtext). _Abbildung:_ Archivierte Vorgänge suchen
+
+Archivierte Vorgänge werden in der Suche, in der Übersicht zu einem Vorgang oder in den Vorgangskursinformationen durch das Symbol !../images/archiviert_15.png! gekennzeichnet.
+
+!img_archivVorgangskurzinformationen.jpg!
+
+p(imgtext). _Abbildung:_ Kennzeichnung eines archivierten Vorganges in den Vorgangskurzinformationen
+
+
+
+h2. Kommentare
+
+Für die interne Kommunikation können Kommentare zu einem Vorgang erstellt werden. Die Kommentare sind nur für die Sachbearbeiter und Externe im Backend sichtbar.
+
+!img_kommentar.jpg!
+
+p(imgtext). _Abbildung:_ Darstellung und Bearbeiten von Kommentaren
+
+
+
+h2. Freigabestatus
+
+Bei der Erstellung eines Vorganges können unter anderem Betreff, Details und ein Foto angegeben werden. Mit diesen Vorgangsdaten kann jedoch auch Missbrauch betrieben werden. Diese Vorgangsdaten werden daher erst nach einer Erstsichtung für die Öffentlichkeit bereitgestellt. Bei der Erstsichtung hat der Sachbearbeiter die Möglichkeit die Daten zu ändern bzw. deren Freigabestatus anzupassen. Der Freigabestatus legt dabei fest, für wen die jeweiligen Informationen sichtbar sind. Beim Freigabestatus gibt es drei Möglichkeiten:
+* !../images/freigabeStatus_extern.png! *extern*: Die Daten sind sowohl für den Sachbearbeiter und externe im Backend als auch für die Bürger im Frontend sichtbar.
+* !../images/freigabeStatus_intern.png! *intern*: Die Daten sind nur für den Sachbearbeiter und externe im Backend sichtbar.
+* !../images/freigabeStatus_geloescht.png! *gelöscht*: Der Freigabestatus ist nur beim Foto verfügbar. Das Foto ist dabei weder im Backend noch im Frontend sichtbar.
+
+Der Freigabestatus kann bei der Erstsichtung oder beim Bearbeiten eines Vorganges angepasst werden. 
+
+!img_freigabeStatusErstsichtung.jpg!
+
+p(imgtext). _Abbildung:_ Bearbeiten des Freigabestatus bei der Erstsichtung
+
+!img_freigabeStatusBearbeiten.jpg!
+
+p(imgtext). _Abbildung:_ Bearbeiten des Freigabestatus
+
+Der aktuelle Freigabestatus eines Datenfeldes wird jeweils neben dem Datenfeld angezeigt und ist zudem bei den Vorgangskurzinformationen dargestellt.
+
+
+!img_freigabeStatusUebersicht.jpg!
+
+p(imgtext). _Abbildung:_ Freigabestatus bei der Übersicht eines Vorganges
+ 
+!img_freigabeStatusVorgangskurzinformationen.jpg!
+
+p(imgtext). _Abbildung:_ Freigabestatus bei den Vorgangskurzinformationen
+
+
+
+h2. Priorität
+
+Jedem Vorgang ist eine Priorität zugeordnet. Es exisistieren die folgenden drei Prioritäten: _niedrig_, _mittel_ und _hoch_. Standardmäßig erhält jeder Vorgang die Priorität _mittel_. Bei der Vorgangsbearbeitung kann die Priorität bearbeitet werden.
+
+!img_prioritaetBearbeiten.jpg!
+
+p(imgtext). _Abbildung:_ Priorität bearbeiten
+
+Die Darstellung der Prioritäten erfolgt beispielsweise in der Ergebnistabelle, bei den Vorgangskurzinformationen und bei der Übersicht zu einem Vorgang.
+
+!{width:90%}img_prioritaetVorgangskurzinformationen.jpg!
+
+p(imgtext). _Abbildung:_ Priorität in den Vorgangskurzinformationen
+
+In der Ergebnistabelle mit den Vorgängen kann nach der Priorität sortiert werden.
+
+!{width:90%}img_prioritaetSuche.jpg!
+
+p(imgtext). _Abbildung:_ Priorität in der Ergebnistabelle
+
+
+
+h2. Unterstützer bzw. Unterstützung
+
+Damit gleiche Vorgänge bzw. Meldungen nicht mehrfach von unterschiedlichen Bürgern gemeldet werden, können Bürger andere Vorgänge unterstützen. Hierbei werden bei einem Vorgang jeweils die Anzahl der Unterstützungen gezählt. Die Anzahl der Unterstützungen kann ein Indiz für die Wichtigkeit bzw. Dringlichkeit einer Meldung sein.
+
+Bei der Erstellung einer Unterstützung im Frontend muss eine Email für die Bestätigungsemail angeben werden. Erfolgt die Bestätigung nicht innerhalb eines Tages, wird die Unterstützung gelöscht.
+
+Im Backend werden Ideen erst ab einer bestimmten Anzahl von abgegebenen Unterstützungen (aktuell 10) in der Suche angezeigt. Die Anzeige aller Ideen, auch die mit noch nicht genügend Unterstützungen, ist in der erweiterten Suche mit entsprechenden Rechten möglich. 
+
+
+
+h2. Missbrauchsmeldung
+
+Stellt ein Bürger oder ein Sachbearbeiter fest, dass mit einem Vorgang ein Missbrauch betrieben wird, so kann dieser für den Vorgang eine Missbrauchsmeldung erstellen. Missbrauchsmeldungen können sowohl über das Frontend als auch über das Backend erstellt werden. Vorgänge mit einer offenen Missbrauchsmeldung werden sofort aus der Ansicht im Frontend entfernt und sind somit für die Bürger nicht mehr sichtbar. 
+
+Im Backend werden Missbrauchsmeldungen durch die Farbe !img_missbrauchsmeldung.jpg! besonders gekennzeichnet. Vorgänge mit Missbrauchsmeldungen stehen bei den Suchseiten immer ganz oben. Der Sachbearbeiter hat die Möglichkeit den Vorgang entsprechend zu bearbeiten, z.B. Kategorie, Betreff oder Details anzupassen, beim Foto Dinge unkenntlich zu machen oder den Status des Vorganges auf gelöscht zu setzen. Danach kann die Missbrauchsmeldung vom Sachbearbeiter geschlossen werden.
+
+!img_missbrauchsmeldungBearbeiten.jpg!
+
+p(imgtext). _Abbildung:_ Missbrauchsmeldung
+
+
+
+h2. Bestätigungen
+
+Werden vom Frontend aus Meldungen, Unterstützungen oder Missbrauchsmeldungen erstellt, so bedarf es hierbei jeweils einer Bestätigung. Hierzu wird nach der Erstellung der Meldungen, Unterstützungen oder Missbrauchsmeldungen jeweils eine Email an die angegebene Emailadresse mit einem Bestätigungslink versandt. Wird der Bestätigungslink vom Ersteller nicht innerhalb eines Tages aufgerufen, so verfällt die entsprechende Meldung, Unterstützung oder Missbrauchsmeldung.
+
+Meldungen bzw. Vorgänge, die von einem Ersteller noch nicht bestätigt wurden, sind vom Status als _gemeldet_ gekennzeichnet. Die Vorgänge sind im Backend nur über die erweiterte Suche erreichbar, vorausgesetzt man hat die entsprechenden Rechte hierfür. Vorgänge mit dem Status _gemeldet_ können nicht bearbeitet werden.
+
+
+
+h2. Benutzerrollen
+
+Zum Arbeiten mit dem Backend muss man sich als Benutzer beim System anmelden. Den Benutzern werden dazu verschiedene Rollen zugeordnet. Zu den Rollen gehören unter anderem die Rollen, die Aussagen über die Zuständigkeiten des Benutzers machen. Allgemein lassen sich die Rollen in vier Hauptrollen unterteilen:
+* *intern*: Die Sachbearbeiter sind dieser Rolle zugeordnet. Sie erlaubt dem Benutzer z.B. Vorgänge und Vorgangsdaten zu bearbeiten.
+* *extern*: Benutzern von externen Unternehmen wird diese Rolle zugewiesen. Im Gegensatz zur Rolle intern sind die Funktionalitäten zur Anzeige und zur Bearbeitung der Vorgänge jedoch eingeschränkt. Vorgangsdaten können z.B. nicht bearbeitet werden.
+* *dispatcher*: Wird die Zuständigkeit eines Vorganges immer wieder mit Hilfe des Zuständigkeitsfinders neu zugeordnet und keine noch nicht verwendete Zuständigkeit ist mehr möglich, so werden Vorgänge einem Dispatcher zugeordnet. Dieser kann dann die Zuständikeit für die weitere Arbeit mit dem Vorgang festlegen.
+* *admin*: Administratoren des Systems haben alle Rechte. 
+
+Die Verwaltung der Benutzer und Rollen erfolgt im LDAP der Verwaltung.
+
+
+
+h2. Zuständigkeit
+
+Zur Bearbeitung eines Vorganges wird dem Vorgang eine Zuständigkeit zugeordnet. Entsprechnd der Rollen eines Benutzers werdem diesem auch die Vorgänge angezeigt, für die der Benutzer zuständig ist.
+
+Bei der Zuständigkeit gibt es zwei unterschiedliche Status.
+
+* !img_zustaendigkeitZugeweisen.jpg! *zugewiesen*: Die Zuständigkeit ist einer Gruppe zugewiesen, aber von dieser Gruppe noch nicht akzeptiert.
+* !img_zustaendigkeitAkzeptiert.jpg! *akzeptiert*: Die Zuständigkeit wurde von der zuständigen Gruppe akzeptiert.
+
+Die aktuelle Zuständigkeit und deren Status sind in der Ergebnistabelle, bei den Vorganskurzinformationen, der Übersicht zum Vorgang und an weiteren Stellen dargestellt.
+
+!{width:90%}img_zustaendigkeitSuche.jpg!
+
+p(imgtext). _Abbildung:_ Zuständigkeit in der Ergebnistabelle
+
+!{width:90%}img_zustaendigkeitVorgangskurzinformationen.jpg!
+
+p(imgtext). _Abbildung:_ Zuständigkeit bei den Vorgangskurzinformationen
+
+Bei einem neu erstellten Vorgang wird die Zuständigkeit automatisch von dem Zuständigkeitsfinder zugeordnet. Bei der Erstsichtung bzw. beim Bearbeiten eines Vorganges kann die Zuständigkeit durch den Sachbearbeiter angepasst werden. 
+
+!img_zustaendigkeitBearbeiten.jpg!
+
+p(imgtext). _Abbildung:_ Bearbeiten der Zuständigkeit
+
+Bei der Änderung der Zuständigkeit stehen dem Sachbearbeiter entsprechend seiner Rollen und der aktuellen Zuständigkeit des Vorganges verschiedene Optionen zur Verfügung, die zur leichteren Unterscheidung farblich markiert sind:
+* !img_zustaendigkeitUebernehmenAkzeptieren.jpg! *übernehmen bzw. akzeptieren*: Die Zuständigkeit kann für einen Vorgang akzeptiert werden oder für eine bestimmte Rolle übernommen und akzeptiert werden.
+* !img_zustaendigkeitZuweisen.jpg! *zuweisen*: Der Vorgang kann einer anderen Gruppe zugewiesen werden.
+* !img_zustaendigkeitAutomatischNeu.jpg! *automatisch neu zuweisen*: Der Vorgang wird durch den Zuständigkeitsfinder automatisch einer neuen Gruppe zugeordnet.
+
+
+
+h2. Delegieren
+
+Werden Vorgänge nicht direkt durch die Verwaltung bearbeitet, sondern durch externe Anbieter, so können Vorgänge an diese delegiert werden. Voraussetzung dafür ist, dass die externen Anbieter hierfür einen eingerichten Zugang für das Backend haben.
+
+Berechtigte Mitarbeiter externer Firmen können sich beim Backend anmelden und haben hier die Möglichkeit die ihnen zugewiesenen Vorgänge zu bearbeiten. Im Gegensatz zu den Sachbearbeitern haben sie hierbei jedoch nur einen eingeschränkten Funktionsumfang.
+
+Das Delegieren eines Vorganges kann beim Bearbeiten eines Vorganges erfolgen.
+
+!img_delegieren.jpg!
+
+p(imgtext). _Abbildung:_ Delegieren eines Vorganges
+
+Externe Mitarbeiter werden täglich über die ihnen neu zugeordneten Vorgänge per Email informiert.
+
+An wen ein Vorgang delegiert wurde, ist sowohl im Ergebnis der Vorgangssuche, in der Vorgangskurzübersicht und in der Übersicht zu einem Vorgang sichtbar.
+
+!{width:90%}img_delegiertSuche.jpg!
+
+p(imgtext). _Abbildung:_ Informationen zum Delegieren in der Ergebnistabelle
+
+!{width:90%}img_delegiertVorgangskurzinformationen.jpg!
+
+p(imgtext). _Abbildung:_ Informationen zum Delegieren in den Vorgangskurzinformationen
+
+
+
+h2. Automatische Jobs im Hintergrund
+
+Das Backend führt in regelmäßigen Abständen bzw. zu regelmäßigen Zeiten automatische Jobs auf dem Server aus. Hierzu gehören die folgenden Jobs:
+
+* *Vorgänge archivieren*: Abgeschlossenene Vorgänge werden nach einer bestimmten Zeit automatisch archiviert.
+* *Unbestätigte Vorgange entfernen*: Vorgänge, die im Frontend erstellt wurden und vom Ersteller nicht nach einem Tag bestätigt wurden, werden gelöscht.
+* *Unbestätigte Unterstützungen entfernen*: Im Frontend gemeldet aber noch nicht bestätigte Unterstützungen zu einem Vorgang werden nach einem Tag gelöscht.
+* *Unbestätigte Missbrauchsmeldungen entfernen*: Missbrauchsmeldungen zu einem Vorgang, die im Frontend erstellt wurden und vom Ersteller nicht nach einem Tag bestätigt wurden, werden gelöscht. 
+* *Zuständigkeitsfinder aktualisieren*: Der Zuständigkeitsfinder, der zur automatischen Auswahl der Zuständigkeit bei Vorgängen verwendet wird, wird anhand der im System vorhandenen Vorgänge aktualisiert.
+* *Dispatcher informieren*: Die Dispatcher des Systems werden über die ihnen neu zugewiesenen Vorgänge täglich per Email informiert.
+* *Externe informieren*: Benutzern von externen Unternehmen werden täglich über die Vorgänge, die an Sie neu delegiert wurden per Email informiert.
+* *Ersteller informieren*: Die Ersteller (Bürger) eines Vorganges werden über den Abschluss ihres erstellten Vorganges per Email informiert.
+
+
+
+h2. Trashmail
+
+Damit ein Missbrach des Systems eingeschränkt werden kann, können verschiedene Emailadressen von der Nutzung des System ausgeschlossen werden. Dabei handelt es sich in der Regel um sogenannte Wegwerf-Emailadressen (Trashmail), die durch verschiedene Anbieter im Internet angeboten werden. Der Admin des Systems hat im Adminbereich die Möglichkeit die Liste der Anbieter zu aktualisieren.
+
+!{width:90%}img_trashmail.jpg!
+
+p(imgtext). _Abbildung:_ Trashmail bearbeiten
+
+Im Frontend werden Emailadressen von Trashmail-Anbietern nicht akzeptiert, so dass eine Erstellung von Vorgängen, Unterstützungen und Missbrauchsmeldungen damit dann möglich ist.
+
+
+
+h1. Benutzerinterface
+
+
+
+h2. Login und Logout
+
+Für die Arbeit mit dem Backend muss man als Benutzer angemeldet sein. Je nachdem welche Rechte man als Benutzer hat, stehen einem entsprechende Ansichten und Funktionen zur Verfügung. Stehen einem nicht die notwendigen Rechte zur Verfügung, so ist dies mit dem Administrator des Systems zu klären.
+
+Der Login erfolgt über eine Login-Seite in der man seinen Benutzername und sein Passwort angibt. Das System ist für die Authentifizierung und Authorisierung mit dem LDAP der Verwaltung verbunden, so dass hier die üblichen Anmeldedaten verwendet werden können.
+
+!img_login.jpg!
+
+p(imgtext). _Abbildung:_ Login
+
+Zum Abmelden beim Backend ist im Hauptmenü der Punkt _Logout_ zu finden.
+
+!img_logout.jpg!
+
+p(imgtext). _Abbildung:_ Logout
+
+
+
+h2. Benutzerinterface
+
+Das Benutzerinterface unterteilt sich in 5 Bereiche. Links befindet sich das *Hauptmenü*. Im oberem Hauptteil der Seite befinden sich die *Karteireiter* und die *Vorgangskurzinformationen*. Die eigentlichen Informationen sind im *Seiteninhalt*. Hilfestellungen bei der aktuellen Arbeit mit dem Backend findet man im Bereich *Hilfe*.
+
+!img_benutzerinterface.jpg!
+
+p(imgtext). _Abbildung:_ Benutzerinterface
+
+
+
+h2. Vorgangskurzinformationen
+
+Die Vorganskurzinformationen im oberen Bereich der Seiten stellen bei einem gewählten Vorgang immer die wichtigsten Daten des Vorganges dar. Hierzu gehören die folgenden Informationen
+
+* Status,
+* Archiviert ja/nein 
+* Vorgangstyp, 
+* Vorgangsnummer, 
+* Erstellungsdatum
+* Haupt- und Unterkategorie
+* Zuständigkeit
+* Zuständigkeitsstatus
+* delegiert an
+* Vorhandensein von Betreff, Details und Foto sowie der entsprechende Freigabestatus
+* Priorität
+
+!{width:90%}img_vorgangskurzinformationen.jpg!
+
+p(imgtext). _Abbildung:_ Vorgangskurzinformationen
+
+
+
+h2. Blöcke auf- und zuklappen
+
+Um auf den Seiten genügend Platz für die individuell benötigten Informationen und Funktionen zu haben, existieren Blöcke, die auf- und zugeklappt werden können. Die Blöcke sind rechts in der Titelleiste durch ein !../images/togglepanel.png! gekennzeichnet. Durch Klicken auf die Titelleiste werden die Blöcke auf- und zugeklappt. Der Status des Blockes wird gespeichert, so dass beim nächsten Besuch der Seite sich die Blöcke wieder im vorherigen Zustand befinden.
+
+!img_blockZugeklappt.jpg!
+
+p(imgtext). _Abbildung:_ zugeklappter Block
+
+!img_blockAufgeklappt.jpg!
+
+p(imgtext). _Abbildung:_ aufgeklappter Block
+
+
+
+h2. Vorgang erstellen
+
+Vorgänge können im Frontend und im Backend erstellt werden. Im Gegensatz zum Frontend muss beim Backend keine Emailadresse angegeben werden, da eine Bestätigung hier nicht notwendig ist.
+
+!{width:90%}img_vorgangErstellen.jpg!
+
+p(imgtext). _Abbildung:_ Vorgang erstellen
+
+Beim Erstellen eines Vorganges sind verschiedene Angaben zut tätigen. Pflichtangaben sind dabei der Vorgangstyp, die Hauptkategorie, die Unterkategorie und der Ort. Da zwischen Vorgangstyp, Haupt- und Unterkategorie Abhängigkeiten bestehen, können diese nur in der entsprechenden Reihenfolge eingetragen werden. Die Felder Betreff und Details sind abhängig von der gewählten Kategorie und sind somit optionale Angaben oder Pflichtangeben. Die Felder werden mit einem _*_ und einem Hinweistext gekennzeichnet, wenn diese angegeben werden müssen. Zu den optionalen Feldern gehören die Emailadresse und das Foto. Als Foto kann eine Datei aus dem Dateisystem herausgesucht und hochgeladen werden.
+
+
+
+h2. Ort in Karte einzeichnen
+
+Jedem Vorgang ist ein Ort zugewiesen. Der Ort wird dabei bei der Erstellung eines Vorganges sowohl im Frontend als auch im Backend angegeben.
+
+!{width:90%}img_mapOrtEinzeichnen.jpg!
+
+p(imgtext). _Abbildung:_ Einzeichnen des Ortes in einer Karte
+
+Im Backend erfolgt das Einzeichnen des Ortes mit Hilfe einer Karte. Hierzu kann in der Karte frei navigiert werden bzw. es kann zur Kartenansicht umgestellt werden. Zum Einzeichnen des Ortes eines Vorganges wird zuvor die entsprechende Funktion im Kartenfenster gewählt. Durch einen Einfach-Klick auf die gewünschte Position in der Karte wird der Ort festgelegt. Bei wiederholtem Klick auf eine Position in der Karte wird der Ort des Vorganges entsprechend an die neue Position gesetzt.
+
+
+
+h2. Einfache Vorgangssuche
+
+Im Backend stehen dem Benutzer zwei Suchen zur Verfügung, die einfache und die erweiterte Suche. 
+
+!{width:90%}img_einfacheSuche.jpg!
+
+p(imgtext). _Abbildung:_ Einfache Vorgangssuche
+
+Bei der einfachen Suche werden alle Vorgänge angezeigt, die einem zugeordnet und nicht archiviert sind. Bei der Anzeige der Vorgänge kann man zwischen den offenen und abgeschlossenen Vorgängen wählen. 
+
+Durch den Klick auf einen Vorgang (eine Zeile) in der Tabelle gelangt man zu dem Vorgang. Hier kann der Vorgang vom Benutzer bearbeitet werden. 
+
+In der Ergebnistabelle werden verschiedene Daten der Vorgänge dargestellt, anhand derer die Vorgänge sortiert werden können. Zum Sortieren der Vorgänge klickt man auf das gewünschte Feld im Tabellenkopf. Ein nochmaliger Klick auf das gleiche Feld dreht die Sortierreihenfolge um.
+
+Unterhalb der Ergebnistabelle befindet sich ein Bereich zum Navigieren in der Ergebnistabelle. Bei einer großen Anzahl von Vorgängen in der Anzeige kann hier vor- bzw. zurückgeblättert werden. Die Anzahl der Vorgänge pro Seite kann ebenfalls geändert werden.
+
+Die Ergebnistabelle kann in eine Excel-Datei exportiert oder in einer Karte angezeigt werden.
+
+
+
+h2. Erweiterte Vorgangssuche
+
+Im Backend stehen dem Benutzer zwei Suchen zur Verfügung, die einfache und die erweiterte Suche. 
+
+!{width:90%}img_erweiterteSuche.jpg!
+
+p(imgtext). _Abbildung:_ Erweiterte Vorgangssuche
+
+Bei der erweiterten Suche kann der Benutzer individuell angeben, nach welchen Kriterien die Vorgänge gefiltert werden sollen. Dabei stehen manche Filterkriterien nur Benutzern mit bestimmten Rechten zur Verfügung.
+
+Die Vorgänge können nach den folgenden Kriterien gefiltert werden:
+* Text (es wird dabei in den folgenden Daten gesucht: Betreff, Details, Kategorie, Statuskommentar, Missbrauchsmeldungen, Kommentare)
+* Zuständigkeit
+* Delegiert an
+* Status
+* archiviert
+* Typ/Vorgangstyp
+* Haupt- und Unterkategorie
+* Datum der Erstellung
+* Anzahl der Unterstützer
+* Priorität
+* Ortsteil
+
+Durch den Klick auf einen Vorgang (eine Zeile) in der Tabelle gelangt man zu dem Vorgang. Hier kann der Vorgang vom Benutzer bearbeitet werden. 
+
+In der Ergebnistabelle werden verschiedene Daten der Vorgänge dargestellt, anhand derer die Vorgänge sortiert werden können. Zum Sortieren der Vorgänge klickt man auf das gewünschte Feld im Tabellenkopf. Ein nochmaliger Klick auf das gleiche Feld dreht die Sortierreihenfolge um.
+
+Unterhalb der Ergebnistabelle befindet sich ein Bereich zum Navigieren in der Ergebnistabelle. Bei einer großen Anzahl von Vorgängen in der Anzeige kann hier vor- bzw. zurückgeblättert werden. Die Anzahl der Vorgänge pro Seite kann ebenfalls geändert werden.
+
+Die Ergebnistabelle kann in eine Excel-Datei exportiert oder in einer Karte angezeigt werden.
+
+
+
+h2. Ergebnistabelle der Vorgangssuche als Excel-Datei exportieren
+
+Die Ergebnistabelle der Vorgangssuche (einfache Suche und erweiterte Suche) kann mit Hilfe des Button !img_excelExportButton.jpg! in eine Excel-Datei exportiert werden. Die Excel-Datei kann dann für die weitere Arbeit verwendet werden.
+
+!{width:90%}img_excelExport.jpg!
+
+p(imgtext). _Abbildung:_ Export von Vorgängen in eine Excel-Datei
+
+Beim Exportieren werden alle Ergebnisse der Suche berücksichtigt, d.h. alle Ergebnissseiten werden mit in die Excel-Datei übernommen.
+
+
+
+h2. Ergebnisse der Vorgangssuche in Karte darstellen
+
+Das Suchergebnis der Vorgangsuche (einfache Suche und erweiterte Suche) kann mit Hilfe des Buttons !img_mapMultiButton.jpg! in einer Karte dargestellt werden. Dabei werden alle Ergebnisse (aus allen Ergebnisseiten) der Suche berücksichtigt.
+
+!{width:90%}img_mapMulti.jpg!
+
+p(imgtext). _Abbildung:_ Darstellung von Vorgängen in einer Karte
+
+In der Karte kann frei navigiert werden. Die einzelnen Vorgänge werden durch ein Symbol an den entsprechenden Ort des Vorganges in der Karte angezeigt. Das Symbol stellt den Vorgangstyp und den Status des Vorganges dar. Durch einen Klick auf das Symbol gelangt man zum entsprechenden Vorgang.
+
+
+
+h2. Erstsichtung
+
+Bevor ein Vorgang bearbeitet und für den Bürger im Frontend vollständig angezeigt wird, muss für den Vorgang von einem Sachbearbeiter eine Erstsichtung erfolgen. die Erstsichtung besteht aus zwei Teilen. Im ersten Teil wird die Zuständigkeit akzeptiert bzw. angepasst. Im zweiten Teil können verscheidene Vorgangsdaten geändert sowie der Freigabestatus für bestimmte Vorgangsdaten angepasst werden. Nach der Erstsichtung wechselt der Status des Vorganges von _offen_ auf _in Bearbeitung_.
+
+
+
+h2. Vorgangsdaten bearbeiten
+
+Zu einem Vorgang gehören verschiedene Vorgangsdaten. Einige davon (Typ, Haupt- und Unterkategorie, Betreff und Details) können beim Bearbeiten eines Vorganges geändert werden.
+
+!img_vorgangsdatenBearbeiten.jpg!
+
+p(imgtext). _Abbildung:_ Bearbeiten der Vorgangsdaten
+
+
+
+h2. Übersichtsseite zu einem Vorgang
+
+Die Übersichtsseite zu einem Vorgang stellt alle Informationen zu einem Vorgang dar. Hier sind die Vorgangsdaten, der Status, Kommentare und Zuständigkeiten zu finden. Eine größere Darstellung der Karte und des Fotos erreicht man durch einen Klick auf die Karte bzw. das Foto.
+
+!img_uebersichtVorgang.jpg!
+
+p(imgtext). _Abbildung:_ Übersichtsseite zu einem Vorgang
+
+
+
+h2. Verlauf
+
+Alle Aktionen, die einen Vorgang betreffen, werden protokolliert. In der Verlaufsansicht werden diese Aktionen in zeitlicher Reihenfolge dargestellt. Dabei stehen die neuesten Aktionen immer oben. Zu einem Eintrag im Verlauf gehört neben der Beschreibung der Aktion immer wer und wann etwas getan wurde.
+
+!img_fotoBearbeiten.jpg!
+
+p(imgtext). _Abbildung:_ Verlauf
+
+
+
+h2. Foto bearbeiten
+
+Wenn ein Foto zu einem Vorgang hochgeladen wurde, kann dieses bei der Erstsichtung oder Bearbeitung eines Vorganges bearbeitet werden. Dabei kann nicht das Foto ausgetauscht, sondern gewählte Bereiche des Bildes ausgeschwärzt werden. Die Aktivierung der Fotobearbeitung erfolgt über den Button !../images/foto_edit_enable.png!. Durch das Zeichnen von Rechtecken auf dem Bild mit der Maus werden die zu schwärzenden Bereiche definiert. Bei der Bearbeitung kann vor- und zurückgesprungen werden. Die Bearbeitung kann ggf. abgebrochen werden, wobei der vorherige Zustand des Fotos wiederhergestellt wird. Beim Speichern der Änderungen werden die schwarzen Bereiche endgültig im Foto gespeichert und können später nicht wieder rückgängig gemacht werden.
+
+!img_fotoBearbeiten.jpg!
+
+p(imgtext). _Abbildung:_ Bearbeiten eines Fotos
+
+
+
+h2. Karte
+
+Der Ort eines Vorganges wird in einer Karte dargestellt bzw. kann über die Karte eingezeichnet werden. Zum Arbeiten mit der Karte existieren die folgenden Funktionen, die je nach Einbindung der Karte zur Verfügung stehen.
+
+* Zoomfunktionen
+** *Heranzoomen*
+** *Herauszoomen*
+** *Zoomlevel einstellen*
+** *Maximal herauszoomen*
+** *Auf den ausgewählten Bereich zoomen*
+* Verschiebefunktionen
+** *Karte in eine Richtung verschieben*
+** *Karte verschieben* (Bei gedrückter Maustaste auf der Karte wird die Karte verschoben)
+* Ansichtsfunktionen
+** *Ansicht vor*
+** *Ansicht zurück*
+* *Kartenansicht wechseln*
+* *Position einzeichnen*
+
+!{width:90%}img_map.jpg!
+
+p(imgtext). _Abbildung:_ Kartendarstellung mit Funktionen Navigieren und Einzeichnen einer Position
+
+Der Ort des Vorganges wird bei der Darstellung bzw. beim Einzeichnen als ein roter Kreis dargestellt. In der Ansicht mit mehreren Vorgängen wird jeder Vorgang durch ein Symbol dargestellt.
+
+In der Übersichtsseite wird der Ort des Vorganges durch eine kleine Karte ohne Navigationsfunktionen dargestellt. Durch einen Klick auf die Karte wechselt man in die Darstellung mit einer großen Karte mit Navigationsfunktionen.  
+
+
+
+h2. Vorgang weiterleiten
+
+Die Informationen eines Vorganges können per Email an eine beliebige Emailadresse weitergeleitet werden. Zum Weiterleiten muss man einen Vorgang gewählt haben. Über die Briefsymbole (!../images/mail-message-new.png! und !../images/mail-groupwise.png!) am oberen rechten Rand der Seite kann das Weiterleiten erfolgen. Hierbei gibt es zwei Möglichkeiten:
+
+* !../images/mail-message-new.png! Die Weiterleitung der Daten erfolgt mit Hilfe eines Formulars. Hierbei wird die Emailadresse des Empfängers angegeben und es kann ein individueller Text für den Empfänger geschrieben werden. Zusätzlich kann über Auswahlfelder definiert werden, welche Informationen mit in die Email aufgenommen werden.  
+
+!{width:90%}img_weiterleitenFormular.jpg!
+
+p(imgtext). _Abbildung:_ Formular zum Weiterleiten eines Vorganges
+
+* !../images/mail-groupwise.png! Das Weiterleiten erfolgt mit dem als Standard installierten Mailclient des Arbeitrechners. Dabei wird der Mailclient des Systems und darin eine Mail mit den Vorgangsdaten geöffnet. Die Email kann individuell angepasst werden. Bei der Erstellung der Email kann das Kontaktadressbuch des Mailclients verwendet werden.
+
+!img_weiterleitenSystem.jpg!
+
+p(imgtext). _Abbildung:_ Email zum Weiterleiten eines Vorganges im Mailclient des Arbeitrechners
+
+
+
+h2. Vorgang drucken
+
+Wurde ein Vorgang ausgewählt, so lassen sich die Informationen über den Button !../images/printer.png! (oben rechts) drucken. hierbei wird eine spezielle Seite geöffnet, in der die Informationen kompakt und auf einer Seite zusammengefasst dargestellt werden. Auf Menüpunkte wird in dieser Ansicht ebenfalls verzichtet.
+
+
+
+h2. Adminseiten
+
+Dem Administrator werden im Adminbereich verschiedene Informationen und Funktionen zum Backend bereitgestellt. Hierzu gehören die folgenden Seiten:
+
+* *Benutzer*: Hier ist eine Übersicht über alle Benutzer des Systems zu finden. Für die einzelnen Nutzer werden deren Benutzerollen dargestellt.
+* *Rollen*: Hier werden die verschiedenen Rollen, die im System zur Verfügung stehen, dargestellt.
+* *Trashmail*: Auf dieser Seite kann die Liste der Wegwerf-Emailadressen eingesehen und aktualisiert werden. 
+* *Status*: Die Seite gibt Aufschluss über den Status des Servers. Es handelt sich dabei um Informationen, wie z.B. den Zugriff auf den WFS, der Clustermode des Servers oder Informationen über fehlerhaft ausgeführte Jobs. 
+* *Datenbank*: Hier sind Funktionen bzgl. der Synchronisation der Datenbank vom Backend und Frontend.
+* *Test*: Hier kann die REST-Schnittstelle, die das Frontend zur Kommunikation mit dem Backend verwendet, getestet werden.

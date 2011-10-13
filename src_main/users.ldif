@@ -1,0 +1,324 @@
+version: 1
+
+#eigentlich o=ADMINHRO, aber das funzt nicht mit dem Embbeded Apache DS
+dn: ou=system
+objectClass: organizationalUnit
+objectClass: top
+ou: system
+
+#vorgegebene Unterstruktur im LDAP von HRO
+dn: ou=HDB,ou=system
+objectClass: organizationalUnit
+objectClass: top
+ou: HDB
+description: Haus des Bauwesens
+
+dn: ou=WFH,ou=system
+objectClass: organizationalUnit
+objectClass: top
+ou: WFH
+description: Westfriedhof
+
+dn: ou=Wiethagen,ou=system
+objectClass: organizationalUnit
+objectClass: top
+ou: Wiethagen
+
+dn: ou=SV,ou=system
+objectClass: organizationalUnit
+objectClass: top
+ou: SV
+
+dn: ou=klarschiff,ou=SV,ou=system
+objectClass: organizationalUnit
+objectClass: top
+ou: klarschiff
+
+dn: ou=A62,ou=HDB,ou=system
+objectClass: organizationalUnit
+objectClass: top
+ou: A62
+description: Kataster-, Vermessungs- und Liegenschaftsamt
+
+dn: ou=A66,ou=HDB,ou=system
+objectClass: organizationalUnit
+objectClass: top
+ou: A66
+description: Tief- und Hafenbauamt
+
+dn: ou=A73,ou=HDB,ou=system
+objectClass: organizationalUnit
+objectClass: top
+ou: A73
+description:: QW10IGbDvHIgVW13ZWx0c2NodXR6
+
+dn: ou=A67,ou=WFH,ou=system
+objectClass: organizationalUnit
+objectClass: top
+ou: A67
+description:: QW10IGbDvHIgU3RhZHRncsO8biwgTmF0dXJzY2h1dHogdW5kIExhbmRzY2hhZn
+
+dn: ou=A82,ou=Wiethagen,ou=system
+objectClass: organizationalUnit
+objectClass: top
+ou: A82
+description: Stadtforstamt
+
+#Beispielnutzer (fullname funzt nicht bei Apache DS, daher sind die Daten zunächst unter cn abgelegt
+dn: uid=detlef_neitz,ou=A62,ou=HDB,ou=system
+objectClass: organizationalPerson
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: top
+cn: A62 Detlef Neitz
+sn: Neitz
+mail: detlef.neitz@rostock.de
+uid: detlef_neitz
+userPassword:: aHJv
+
+dn: uid=fritz,ou=A66,ou=HDB,ou=system
+objectClass: organizationalPerson
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: top
+cn: A66 Fritz Fritz
+sn: Fritz
+mail: fritz@fritz.de
+uid: fritz
+userPassword:: ZnJpdHo=
+
+dn: uid=horst,ou=A82,ou=Wiethagen,ou=system
+objectClass: organizationalPerson
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: top
+cn: A82 Horst Horst
+sn: Horst
+mail: horst@horst.de
+uid: horst
+userPassword:: aG9yc3Q=
+
+dn: uid=lutz,ou=klarschiff,ou=SV,ou=system
+objectClass: organizationalPerson
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: top
+cn: Stadtentsorgung Lutz Lutz
+sn: Lutz
+mail: lutz@lutz.de
+uid: lutz
+userPassword:: bHV0eg==
+
+dn: uid=olaf,ou=A73,ou=HDB,ou=system
+objectClass: organizationalPerson
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: top
+cn: A73 Olaf Olaf
+sn: Olaf
+mail: olaf@olaf.de
+uid: olaf
+userPassword:: b2xhZg==
+
+dn: uid=paul,ou=A73,ou=HDB,ou=system
+objectClass: organizationalPerson
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: top
+cn: A73 Paul Paul
+sn: Paul
+mail: paul@paul.de
+uid: paul
+userPassword:: cGF1bA==
+
+dn: uid=peter,ou=A67,ou=WFH,ou=system
+objectClass: organizationalPerson
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: top
+cn: A67 Peter Peter
+sn: Peter
+mail: peter@peter.de
+uid: peter
+userPassword:: cGV0ZXI=
+
+dn: uid=rudi,ou=A73,ou=HDB,ou=system
+objectClass: organizationalPerson
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: top
+cn: A73 Rudi Rudi
+sn: Rudi
+mail: rudi@rudi.de
+uid: rudi
+userPassword:: cnVkaQ==
+
+dn: uid=sebastian_schwarz,ou=A62,ou=HDB,ou=system
+objectClass: organizationalPerson
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: top
+cn: A62 Sebastian Schwarz
+sn: Schwarz
+mail: sebastian.schwarz@rostock.de
+uid: sebastian_schwarz
+userPassword:: aHJv
+
+dn: uid=stefan_audersch,ou=klarschiff,ou=SV,ou=system
+objectClass: organizationalPerson
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: top
+cn: FhG IGD Stefan Audersch
+sn: Audersch
+mail: stefan.audersch@igd-r.fraunhofer.de
+uid: stefan_audersch
+userPassword:: aWdk
+
+dn: uid=tim,ou=klarschiff,ou=SV,ou=system
+objectClass: organizationalPerson
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: top
+cn: Stadtwerke Tim Tim
+sn: Tim
+mail: tim@tim.de
+uid: tim
+userPassword:: dGlt
+
+dn: uid=werner,ou=klarschiff,ou=SV,ou=system
+objectClass: organizationalPerson
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: top
+cn: Veolia Werner Werner
+sn: Werner
+mail: werner@werner.de
+uid: werner
+userPassword:: d2VybmVy
+
+#interne Gruppen für KlarschiffHRO
+dn: cn=a66,ou=klarschiff,ou=SV,ou=system
+objectClass: groupOfNames
+objectClass: top
+cn: a66
+member: uid=peter,ou=A67,ou=WFH,ou=system
+o: intern
+ou:: QW10IGbDvHIgU3RhZHRncsO8biwgTmF0dXJzY2h1dHogdW5kIExhbmRzY2hhZnRzcGZsZWd
+ l
+
+dn: cn=a67,ou=klarschiff,ou=SV,ou=system
+objectClass: groupOfNames
+objectClass: top
+cn: a67
+member: uid=peter,ou=A67,ou=WFH,ou=system
+o: intern
+ou:: QW10IGbDvHIgU3RhZHRncsO8biwgTmF0dXJzY2h1dHogdW5kIExhbmRzY2hhZnRzcGZsZWd
+ l
+
+dn: cn=a73_abfallbehaelter,ou=klarschiff,ou=SV,ou=system
+objectClass: groupOfNames
+objectClass: top
+cn: a73_abfallbehaelter
+member: uid=paul,ou=A73,ou=HDB,ou=system
+o: intern
+ou:: QW10IGbDvHIgVW13ZWx0c2NodXR6IChHcnVwcGUgQWJmYWxsYmVow6RsdGVyIHVuZCBIdW5
+ kZXRvaWxldHRlbik=
+
+dn: cn=a73_altfahrzeuge,ou=klarschiff,ou=SV,ou=system
+objectClass: groupOfNames
+objectClass: top
+cn: a73_altfahrzeuge
+member: uid=olaf,ou=A73,ou=HDB,ou=system
+member: uid=paul,ou=A73,ou=HDB,ou=system
+o: intern
+ou:: QW10IGbDvHIgVW13ZWx0c2NodXR6IChHcnVwcGUgQWx0ZmFocnpldWdlKQ==
+
+dn: cn=a73_container,ou=klarschiff,ou=SV,ou=system
+objectClass: groupOfNames
+objectClass: top
+cn: a73_container
+member: uid=olaf,ou=A73,ou=HDB,ou=system
+o: intern
+ou:: QW10IGbDvHIgVW13ZWx0c2NodXR6IChHcnVwcGUgQ29udGFpbmVyKQ==
+
+dn: cn=a73_strassenreinigung,ou=klarschiff,ou=SV,ou=system
+objectClass: groupOfNames
+objectClass: top
+cn: a73_strassenreinigung
+member: uid=rudi,ou=A73,ou=HDB,ou=system
+member: uid=olaf,ou=A73,ou=HDB,ou=system
+o: intern
+ou:: QW10IGbDvHIgVW13ZWx0c2NodXR6IChHcnVwcGUgU3RyYcOfZW5yZWluaWd1bmcp
+
+dn: cn=a73_umweltaufsicht,ou=klarschiff,ou=SV,ou=system
+objectClass: groupOfNames
+objectClass: top
+cn: a73_umweltaufsicht
+member: uid=rudi,ou=A73,ou=HDB,ou=system
+o: intern
+ou:: QW10IGbDvHIgVW13ZWx0c2NodXR6IChHcnVwcGUgVW13ZWx0YXVmc2ljaHQp
+
+dn: cn=a73_winterdienst,ou=klarschiff,ou=SV,ou=system
+objectClass: groupOfNames
+objectClass: top
+cn: a73_winterdienst
+member: uid=rudi,ou=A73,ou=HDB,ou=system
+member: uid=paul,ou=A73,ou=HDB,ou=system
+o: intern
+ou:: QW10IGbDvHIgVW13ZWx0c2NodXR6IChHcnVwcGUgV2ludGVyZGllbnN0KQ==
+
+dn: cn=a82,ou=klarschiff,ou=SV,ou=system
+objectClass: groupOfNames
+objectClass: top
+cn: a82
+member: uid=horst,ou=A82,ou=Wiethagen,ou=system
+o: intern
+ou: Stadtforstamt
+
+#externe Gruppen für KlarschiffHRO
+dn: cn=stadtentsorgung,ou=klarschiff,ou=SV,ou=system
+objectClass: groupOfNames
+objectClass: top
+cn: stadtentsorgung
+member: uid=lutz,ou=klarschiff,ou=SV,ou=system
+o: extern
+ou: Stadtentsorgung Rostock GmbH
+
+dn: cn=stadtwerke,ou=klarschiff,ou=SV,ou=system
+objectClass: groupOfNames
+objectClass: top
+cn: stadtwerke
+member: uid=tim,ou=klarschiff,ou=SV,ou=system
+o: extern
+ou: Stadtwerke Rostock AG
+
+dn: cn=veolia,ou=klarschiff,ou=SV,ou=system
+objectClass: groupOfNames
+objectClass: top
+cn: veolia
+member: uid=werner,ou=klarschiff,ou=SV,ou=system
+o: extern
+ou: Veolia Umweltservice GmbH
+
+#AdminGruppe für KlarschiffHRO
+dn: cn=admin,ou=klarschiff,ou=SV,ou=system
+objectClass: groupOfNames
+objectClass: top
+cn: admin
+member: uid=stefan_audersch,ou=klarschiff,ou=SV,ou=system
+member: uid=detlef_neitz,ou=A62,ou=HDB,ou=system
+description: Administratoren des Backend von KlarschiffHRO
+o: admin
+
+#NichtZuordbarGruppe für KlarschiffHRO
+dn: cn=dispatcher,ou=klarschiff,ou=SV,ou=system
+objectClass: groupOfNames
+objectClass: top
+cn: dispatcher
+member: uid=detlef_neitz,ou=A62,ou=HDB,ou=system
+member: uid=sebastian_schwarz,ou=A62,ou=HDB,ou=system
+description:: R3J1cHBlIHZvbiBCZW51dHplcm4gZGVubmVuIG5pY2h0IHp1b3JkYmFyZSBWb3
+ Jnw6RuZ2UgenVnZXdpZXNlbiB3ZXJkZW4ga8O2bm5lbg==
+o: intern
+ou: Dispatcher für nicht zuordbare Vorgaenge

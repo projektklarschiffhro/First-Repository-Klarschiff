@@ -1,0 +1,15 @@
+<svg width="45.122002" height="45.122002" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="linearGradient3257">
+   <stop stop-color=" rgb(255, 255, 255)" offset="0" id="stop3259"/>
+   <stop stop-color=" rgb(255, 255, 255)" offset="1" id="stop3261"/>
+  </linearGradient>
+  <linearGradient y2="-0.000042" x2="0.500015" y1="-0.000042" x1="0.500015" id="linearGradient3788" xlink:href="#linearGradient3257"/>
+ </defs>
+ <metadata id="metadata2638">image/svg+xml08 12 2006molumengreen power buttoniconbuttondesignUIinterfacepowerswitchonoffgreenglossytoggle</metadata>
+ <g>
+  <path fill="#ff3700" stroke="#000000" stroke-width="0.676981" stroke-miterlimit="4" d="m44.622234,22.561054c0,12.183987 -9.877068,22.061058 -22.061052,22.061058c-12.183985,0 -22.06105,-9.877071 -22.06105,-22.061058c0,-12.183979 9.877065,-22.06105 22.06105,-22.06105c12.183985,0 22.061052,9.877071 22.061052,22.06105z" id="path2997"/>
+  <path opacity="0.75" fill="url(#linearGradient3788)" fill-rule="evenodd" id="path3678" d="m38.29644,14.577392c0,6.621341 -7.044775,11.988996 -15.734943,11.988996c-8.69016,0 -15.734944,-5.367655 -15.734944,-11.988996c0,-6.62134 7.044785,-11.988996 15.734944,-11.988996c8.690168,0 15.734943,5.367656 15.734943,11.988996z"/>
+  <title>Layer 1</title>
+ </g>
+</svg>

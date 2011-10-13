@@ -1,0 +1,106 @@
+<jsp:root 
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
+	xmlns:spring="http://www.springframework.org/tags" 
+	xmlns:jsp="http://java.sun.com/JSP/Page" 
+	xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu"
+	xmlns:vorgang="urn:jsptagdir:/WEB-INF/tags/vorgang"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles" 
+	xmlns:fx="http://igd.fraunhofer.de/tags/elfunctions" 
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util"
+	version="2.0"
+	>
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+	<c:url value="/script/dynamicDriveDhtml/dddropdownpanel.js" var="url"/>
+	<script src="${url}" type="text/javascript"><!-- //dynamicDriveDhtml --></script>
+
+	<!-- CONTENTTITLE -->
+	<div id="root_style_content_title">
+		Missbrauchsmeldungen eines Vorganges
+	</div>
+	
+	<!-- TABMENU -->
+	<tiles:importAttribute name="tabmenu_item" ignore="true" toName="tabmenu_item"/>
+	<menu:tabmenuvorgang currentId="${tabmenu_item}" vorgangId="${vorgang.id}"/>
+	
+	<!-- ITEMINFO -->
+	<vorgang:iteminfo vorgang="${vorgang}"/>
+	
+	<!-- CONTENT -->
+	<div id="root_style_content">
+		<vorgang:vorgangPrintEmail vorgang="${vorgang}"/>
+		
+		<c:if test="${not vorgang.archiviert}">
+			<div class="fieldset" id="missbrauchmeldenpanel">
+				<div class="fieldsettitle closepanel" id="missbrauchmeldentab"><div style="width:100%; height:15px;">Missbrauch melden</div></div>
+				<div id="missbrauchmeldencontent">
+					<form:form method="POST" modelAttribute="cmd">
+			        	<form:label path="missbrauchsmeldung.text" cssErrorClass="error">Meldung</form:label>
+			        	<table cellpadding="0" cellspacing="0">
+			        		<tr>
+			        			<td valign="top">
+						            <form:textarea path="missbrauchsmeldung.text" cols="6" cssStyle="width:350px;"/>
+			        			</td>
+			        		
+			        			<td valign="bottom" style="padding-left:5px;">
+									<input type="submit" value="Missbrauch melden" name="action"/>
+			        			</td>
+			        	
+			        		</tr>
+			        	</table>
+					</form:form>
+				</div>
+			</div>	
+			<util:ddpanel name="missbrauchmelden"/>
+		</c:if>
+		<div class="fieldset">
+			<div class="fieldsettitle">Missbrauchsmeldungen</div>
+			
+			<c:if test="${empty vorgang.missbrauchsmeldungen}">
+				Es liegen keine Missbrauchsmeldungen vor.
+			</c:if>
+	  		<c:forEach items="${missbrauchsmeldungen}" var="missbrauchsmeldung" varStatus="s">
+	  			<div class="missbrauch ${(s.index%2==0) ? 'odd' : 'even'} ${(empty missbrauchsmeldung.datumAbarbeitung) ? 'offen' : ''}">
+	  				<div class="missbrauchHeader">
+		       			<fmt:formatDate value="${missbrauchsmeldung.datum}" pattern="dd.MM.yyyy"/>
+	  				</div>
+	  				
+					<div class="missbrauchText" >
+		        		${fx:toHtml(missbrauchsmeldung.text)}
+					</div>
+					<c:if test="${empty missbrauchsmeldung.datumAbarbeitung}">
+		  				<div style="text-align: right;padding:2px;">
+		  					<form:form method="POST" modelAttribute="cmd">
+								<input name="missbrauchsmeldungId" type="hidden" value="${missbrauchsmeldung.id}"/>
+				       			<button style="height:20px; width:25px;font-size:10px;text-align:center;" title="Missbrauchsmeldung als Bearbeitet markieren" name="action" value="abgearbeitet">&#x2714;</button>
+		  					</form:form>
+			       		</div>
+					</c:if>
+	  			</div>
+			</c:forEach>
+		</div>	
+			
+		
+			
+	</div>	
+	
+	<!-- HELP -->
+	<div id="root_style_help">
+		<p>
+			Bürger oder Sachbearbeiter können zu Vorgängen Missbrauchsmeldungen einstellen. Sind aktive
+			Missbrauchsmeldungen (orange gekennzeichnet) zu einem Vorgang vorhanden, so ist der Vorgang im Frontend für die Bürger 
+			nicht mehr sichtbar.
+		</p>
+		<p>
+			Um eine Missbrauchsmeldung zu bearbeiten, können Sie unter dem Kartenreiter "Bearbeiten" Änderungen am Vorgang vornehmen.
+			Die Missbrauchsmeldung können Sie dann über das Häckchen als bearbeitet markieren.
+		</p>
+		<p>
+			Über den Block "Missbrauch melden" können Sie eine neue Missbrachsmeldung zu dem aktuellen Vorgang einstellen.
+		</p>
+	</div>
+
+</jsp:root>

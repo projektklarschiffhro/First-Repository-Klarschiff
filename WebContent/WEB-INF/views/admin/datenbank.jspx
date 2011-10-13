@@ -1,0 +1,92 @@
+<jsp:root 
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
+	xmlns:spring="http://www.springframework.org/tags" 
+	xmlns:jsp="http://java.sun.com/JSP/Page" 
+	xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles" 
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util"
+	xmlns:fx="http://igd.fraunhofer.de/tags/elfunctions"
+	version="2.0"
+	>
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+	<c:url value="/script/dynamicDriveDhtml/dddropdownpanel.js" var="url"/>
+	<script src="${url}" type="text/javascript"><!-- dynamicDriveDhtml --></script>
+
+	<!-- CONTENTTITLE -->
+	<div id="root_style_content_title">
+		Datenbank
+	</div>
+	
+	<!-- TABMENU -->
+	<tiles:importAttribute name="tabmenu_item" ignore="true" toName="tabmenu_item"/>
+	<menu:tabmenuadmin currentId="${tabmenu_item}"/>
+	
+	<!-- CONTENT -->
+	<div id="root_style_content">
+	
+		<div style="color: red;margin-bottom:20pX;">Achtung! Hierbei werden teilweise Änderungen an den aktuellen Daten in der DB vorgenommen.</div>
+
+
+		<div class="fieldset">
+			<div class="fieldsettitle">initDbLink</div>
+			<p class="help">
+				Mit dem Script werden die Trigger und Triggerfunktionen, die für die automatische Synchronisation der Daten aus der 
+				BackendDb in die FrontendDb verantwortlich sind, in der BackendDb neu erzeugt. Sie können sich hier das Script anzeigen
+				lassen ohne es auszuführen. 
+			</p>
+			<c:if test="${not empty initDbLinkScript}">
+				<p style="font-family: Courier, 'Courier New', monospace; font-size:11px; color:#006CB7; background-color: #ffffff;">
+					${fx:toHtml(initDbLinkScript)}					
+				</p>
+			</c:if>
+			<form method="post">
+				<input type="hidden" name="action" value="viewInitDbLinkScript"/>
+				<input type="submit" value="Script anzeigen"/>
+			</form>
+			<p class="help">
+				Hiermit werden die Trigger und Triggerfunktionen, die für die automatische Synchronisation der Daten aus der 
+				BackendDb in die FrontendDb verantwortlich sind, in der BackendDb neu erzeugt. Mit "Script anzeigen" können Sie sich das Script anzeigen lassen ohne es auszuführen. 
+			</p>
+			<p class="help">
+				Hinweis: Werden die Trigger und Triggerfunktionen erfolgreich in der BackenDb angelegt aber die FrontendDb ist nicht erreichbar, so kann es
+				an verscheidenen Stellen im Backend zu Problemen kommen, da Daten nicht mehr korrekt in der BackendDb gespeichert werden können. 
+			</p>
+			<form method="post">
+				<input type="hidden" name="action" value="initDbLink"/>
+				<input type="submit" value="Ausführen"/>
+			</form>
+		</div>
+
+		<div class="fieldset">
+			<div class="fieldsettitle">syncDb</div>
+			<p class="help">
+				Hiermit wird ein externes Programm (Export aus <a href="http://www.talend.com/products-data-integration/talend-open-studio.php" target="_blank">Talend Open Studio</a>) zur Synchronisation der aktuellen Daten 
+				aus der BackendDb in die FrontendDb aufgerufen. Das Ergebnis des Aufrufes (Consolenausgabe) wird nach dem Aufruf des Programmes hier angezeigt.
+			</p>
+			<form method="post">
+				<input type="hidden" name="action" value="syncDb"/>
+				<input type="submit" value="Ausführen"/>
+			</form>
+			
+			<c:if test="${not empty syncDbResult}">
+				<p>Ergebnis der letzten Ausführung:</p>
+				<div class="subtitle">exitValue</div>
+				${syncDbResult.exitValue}
+				<div class="subtitle">output</div>
+				${fx:toHtml(syncDbResult.output)}
+			</c:if>
+	
+		</div>
+
+	</div>
+	
+	<!-- HELP -->
+	<div id="root_style_help">
+		<p>
+			Hier finden Sie die beiden Funktionen, die für die Synchronisation der Daten zwischen Backend und Frontend verantwortlich sind.
+		</p>
+	</div>
+
+</jsp:root>

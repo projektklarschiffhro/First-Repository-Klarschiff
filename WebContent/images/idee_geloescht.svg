@@ -1,0 +1,20 @@
+<svg width="45.122002" height="45.122002" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="linearGradient3257">
+   <stop stop-color=" rgb(255, 255, 255)" offset="0" id="stop3259"/>
+   <stop stop-color=" rgb(255, 255, 255)" offset="1" id="stop3261"/>
+  </linearGradient>
+  <linearGradient y2="-0.00004" x2="0.50002" y1="-0.00004" x1="0.50002" id="linearGradient3788" xlink:href="#linearGradient3257"/>
+ </defs>
+ <metadata id="metadata2638">image/svg+xml08 12 2006molumengreen power buttoniconbuttondesignUIinterfacepowerswitchonoffgreenglossytoggle</metadata>
+ <g>
+  <path fill="#c1c1a0" stroke="#000000" stroke-width="0.67698" stroke-miterlimit="4" d="m44.62223,22.56106c0,12.18398 -9.87707,22.06104 -22.06105,22.06104c-12.18396,0 -22.06105,-9.87707 -22.06105,-22.06104c0,-12.18399 9.87709,-22.06106 22.06105,-22.06106c12.18398,0 22.06105,9.87707 22.06105,22.06106z" id="path2997"/>
+  <g stroke="#000000" id="g3983">
+   <path fill="none" stroke="#000000" stroke-width="1.6678" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" d="m24.1602,24.198l0.73014,-3.68999c0,0 -0.82768,-1.076 -2.26236,-1.076l-0.13288,0c-1.43468,0 -2.26236,1.076 -2.26236,1.076l0.62343,3.68999" id="path3781-3"/>
+   <path fill="none" stroke="#000000" stroke-width="2.085" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" id="path3810" d="m17.38829,24.95028c-2.63109,-1.57211 -4.37285,-4.30851 -4.37285,-7.42119c0,-4.87595 4.27396,-8.8287 9.54614,-8.8287c5.27205,0 9.54601,3.95275 9.54601,8.8287l0,0l0,0c0,3.12119 -1.75119,5.864 -4.3944,7.43401l-0.07515,0.11813l0,3.85837c0,1.73164 -1.39404,3.1256 -3.12557,3.1256l-3.90177,0c-1.73166,0 -3.1257,-1.39396 -3.1257,-3.1256l0,-3.85837l-0.0967,-0.13095z"/>
+   <path fill="none" stroke="#000000" stroke-width="1.6678" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" stroke-dashoffset="10" id="path3858" d="m26.58527,31.87186l0,3.23926c0,0.87521 -0.70461,1.5798 -1.57982,1.5798l-4.91997,0c-0.87521,0 -1.57979,-0.70459 -1.57979,-1.5798l0,-3.23926"/>
+  </g>
+  <path opacity="0.75" fill="url(#linearGradient3788)" fill-rule="evenodd" id="path3678" d="m38.29644,14.57739c0,6.62134 -7.04478,11.98899 -15.73493,11.98899c-8.69017,0 -15.73493,-5.36765 -15.73493,-11.98899c0,-6.62134 7.04476,-11.989 15.73493,-11.989c8.69016,0 15.73493,5.36766 15.73493,11.989z"/>
+  <title>Layer 1</title>
+ </g>
+</svg>
